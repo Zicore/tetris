@@ -1,0 +1,17 @@
+body{
+    background-color: white;
+    margin:0px;
+    padding:0px;
+}
+
+.playfield{
+    width: 320px;
+    height: 800px;
+    border: 1px solid black;
+}
+
+.outer {
+    display:flex;
+    justify-content: center;
+    margin-top:100px;
+}
