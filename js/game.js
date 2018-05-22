@@ -11,56 +11,63 @@ class Game {
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this.index = 0;
-        this.playfield = new Playfield(320.5, 800.5);
+        this.playfields = [new Playfield(320.5, 800.5)];
         this.blockSize = 32;
-        this.secondsPerLine = 0.5;
+        this.secondsPerLine = 0.15;
+        this.maxRows = 25;
+        this.maxColumns = 10;
         this.entities = [];
         this.updateFpsTime = 1.0;
         this.fpsToDraw = 0;
+        this.lastCalledTime = performance.now();
         this.currentUpdateFpsTime = 0.0;
-        var tetrimono;
+        this.deltaTime = 0;
+        var tetrimino;
 
-        // tetrimono = new Tetrimino_I();
-        // tetrimono.row = 1;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_I();
+        // tetrimino.row = 1;
+        // this.entities.push(tetrimino);
 
-        // tetrimono = new Tetrimino_O();
-        // tetrimono.column = 4;
-        // tetrimono.row = 3;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_O();
+        // tetrimino.column = 4;
+        // tetrimino.row = 3;
+        // this.entities.push(tetrimino);
 
-        tetrimono = new Tetrimino_T();
-        tetrimono.column = 4;
-        tetrimono.row = 6;
-        this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_T();
+        // tetrimino.column = 4;
+        // tetrimino.row = 6;
+        // this.entities.push(tetrimino);
 
-        // tetrimono = new Tetrimino_L();
-        // tetrimono.column = 6;
-        // tetrimono.row = 9;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_L();
+        // tetrimino.column = 6;
+        // tetrimino.row = 9;
+        // this.entities.push(tetrimino);
 
-        // tetrimono = new Tetrimino_J();
-        // tetrimono.column = 3;
-        // tetrimono.row = 12;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_J();
+        // tetrimino.column = 3;
+        // tetrimino.row = 12;
+        // this.entities.push(tetrimino);
 
-        // tetrimono = new Tetrimino_S();
-        // tetrimono.column = 4;
-        // tetrimono.row = 15;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_S();
+        // tetrimino.column = 4;
+        // tetrimino.row = 15;
+        // this.entities.push(tetrimino);
 
-        // tetrimono = new Tetrimino_Z();
-        // tetrimono.column = 1;
-        // tetrimono.row = 18;
-        // this.entities.push(tetrimono);
+        // tetrimino = new Tetrimino_Z();
+        // tetrimino.column = 1;
+        // tetrimino.row = 18;
+        // this.entities.push(tetrimino);
     }
 
     render(tFrame) {
-        this.context.canvas.width = this.playfield.width;
-        this.context.canvas.height = this.playfield.height;
+        this.context.canvas.width = 320;
+        this.context.canvas.height = 800;
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.playfield.render(this, tFrame);
+
+        for (var i = 0; i < this.playfields.length; i++) {
+            this.playfields[i].render(this, tFrame);
+        }
 
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].render(this, tFrame);
@@ -75,32 +82,41 @@ class Game {
     }
 
     update(lastTick) {
-        this.playfield.update(this, lastTick);
+                
+        for (var i = 0; i < this.playfields.length; i++) {
+            this.playfields[i].update(this, lastTick);
+        }
 
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].update(this, lastTick);
         }
-
+    
         this.calculateFps();
+        
+        this.beginUpdateDelta();   
+        this.endUpdateDelta();
     }
 
-    calculateFps(){        
-        if(!this.lastCalledTime) {
-            this.lastCalledTime = performance.now();
-            this.fps = 0;
-            return;
+    beginUpdateDelta(){
+        var delta = (performance.now() - this.lastCalledTime) / 1000.0;
+        if(delta == 0){
+            console.warn("delta is 0");
         }
+        this.deltaTime = delta;     
+    }
 
-        var delta = (performance.now() - this.lastCalledTime)/1000;
+    endUpdateDelta(){           
+        this.lastCalledTime = performance.now();
+    }
 
-        this.currentUpdateFpsTime += delta;
+    calculateFps(){
+        this.currentUpdateFpsTime += this.deltaTime;
         if(this.currentUpdateFpsTime >= this.updateFpsTime){
             this.currentUpdateFpsTime = 0.0;
             this.fpsToDraw = this.fps;        
         }
 
-        this.lastCalledTime = performance.now();
-        this.fps = 1/delta;
+        this.fps = 1/this.deltaTime;
     }
 
     setInitialState() {
@@ -172,7 +188,7 @@ class Game {
 
         this.lastTick = performance.now();
         this.lastRender = this.lastTick; //Pretend the first draw was on first update.
-        this.tickLength = 16; //This sets your simulation to run at 20Hz (50ms)
+        this.tickLength = 20; //This sets your simulation to run at 20Hz (50ms)
 
         this.setInitialState();
 

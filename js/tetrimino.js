@@ -30,6 +30,8 @@ class Tetrimino extends Entity {
             new Block(this,true),
             new Block(this,true)
         ];
+
+        this.setBlockStyle(this.getTetriminoStyle);
     }
 
     render(game, tFrame) {
@@ -58,10 +60,35 @@ class Tetrimino extends Entity {
         return FACING_WEST;
     }
 
-    set setBlockStyle(val){
+    setBlockStyle(val){
         for (var i = 0; i < this.entities.length; i++) {
-            this.entities[i].setBlockStyle(val);
+            this.entities[i].blockStyle = val;
         }
+    }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#A0A0A0","#000000");
+    }
+
+    translateRaw(rows,columns){
+        this.row += rows;
+        this.column += columns;
+    }
+
+    translate(rows,columns){
+        if(!this.isOutOfBounds()){
+            this.translateRaw(rows,columns);
+        }
+    }
+
+    isOutOfBounds(){
+        for (var i = 0; i < this.entities.length; i++) {
+            var e = this.entities[i];
+            if(e.rowAbs < 0 || e.colAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1 || e.colAbs >= Entity.Game.maxColumns - 1){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -92,6 +119,10 @@ class Tetrimino_O extends Tetrimino {
     update(game, lastTick) {
 
     }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#FFFF00","#000000");
+    }
 }
 
 // I
@@ -120,6 +151,10 @@ class Tetrimino_I extends Tetrimino {
 
     update(game, lastTick) {
 
+    }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#84e4ff","#000000");
     }
 }
 
@@ -150,6 +185,10 @@ class Tetrimino_T extends Tetrimino {
     update(game, lastTick) {
 
     }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#ac00e0","#000000");
+    }
 }
 
 // T
@@ -177,6 +216,10 @@ class Tetrimino_L extends Tetrimino {
 
     update(game, lastTick) {
 
+    }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#ff8c00","#000000");
     }
 }
 
@@ -207,6 +250,10 @@ class Tetrimino_J extends Tetrimino {
     update(game, lastTick) {
 
     }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#0043d3","#000000");
+    }
 }
 
 // S
@@ -236,6 +283,10 @@ class Tetrimino_S extends Tetrimino {
     update(game, lastTick) {
 
     }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#00ba00","#000000");
+    }
 }
 
 // Z
@@ -264,6 +315,10 @@ class Tetrimino_Z extends Tetrimino {
 
     update(game, lastTick) {
 
+    }
+
+    get getTetriminoStyle(){
+        return new BlockStyle("#ed0e0e","#000000");
     }
 }
 

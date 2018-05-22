@@ -1,7 +1,6 @@
 class Entity {
     constructor() {
-        this.x = 0;
-        this.y = 0;
+        
     }
 
     initialize(game) {
@@ -14,5 +13,9 @@ class Entity {
 
     update(game, lastTick) {
 
+    }
+
+    static get Game(){
+        return window.game;
     }
 }

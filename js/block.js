@@ -27,8 +27,8 @@ class Block extends Entity {
             ctx.fillStyle = this.blockStyle.fillStyle;
             ctx.strokeStyle = this.blockStyle.strokeStyle;
 
-            var x = game.colToX(this.column + this.parent.column);
-            var y = game.rowToY(this.row + this.parent.row);
+            var x = this.x;
+            var y = this.y;
             ctx.fillRect(x, y, blockSize, blockSize);
             ctx.strokeRect(x, y, blockSize, blockSize);
         }
@@ -38,7 +38,19 @@ class Block extends Entity {
 
     }
 
-    set setBlockStyle (val){
-        this.blockStyle = val;
+    get colAbs(){
+        return this.column + this.parent.column;
+    }
+
+    get rowAbs(){
+        return this.row + this.parent.row;
+    }
+    
+    get x(){
+        return game.colToX(this.column + this.parent.column);
+    }
+
+    get y(){
+        return game.rowToY(this.row + this.parent.row);
     }
 }

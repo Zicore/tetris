@@ -3,6 +3,7 @@ class Playfield extends Entity {
         super();
         this.width = width;
         this.height = height;
+        this.player = new Player();
     }
 
     initialize(game) {
@@ -35,9 +36,11 @@ class Playfield extends Entity {
         }
 
         ctx.stroke();
+
+        this.player.render(game,tFrame);
     }
 
     update(game, lastTick) {
-
+        this.player.update(game,lastTick);
     }
 }
