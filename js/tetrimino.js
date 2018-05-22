@@ -72,6 +72,10 @@ class Tetrimino extends Entity {
         return new BlockStyle("#A0A0A0","#000000");
     }
 
+    get darkTetriminoStyle(){
+        return new BlockStyle("#A0A0A0","#000000");
+    }
+
     translateRaw(rows,columns){
         this.row += rows;
         this.column += columns;
@@ -83,14 +87,18 @@ class Tetrimino extends Entity {
         }
     }
 
-    isOutOfBounds(){
+    isTranslationInvalid(rows,columns){
         for (var i = 0; i < this.entities.length; i++) {
             var e = this.entities[i];
-            if(e.rowAbs < 0 || e.columnAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1 || e.columnAbs >= Entity.Game.maxColumns - 1){
+            if(e.rowAbs + rows < 0 || e.columnAbs + columns < 0 || e.rowAbs + rows >= Entity.Game.maxRows || e.columnAbs + columns >= Entity.Game.maxColumns){
                 return true;
             }
         }
         return false;
+    }
+
+    isMatrixTranslationInvalid(rows,columns){
+        return this.playfield.matrix.isTranslationInvalid(this, rows, columns);
     }
 
     isTouchingGround(){
@@ -139,6 +147,10 @@ class Tetrimino_O extends Tetrimino {
     get getTetriminoStyle(){
         return new BlockStyle("#FFFF00","#000000");
     }
+
+    get darkTetriminoStyle(){
+        return new BlockStyle("#FFFF00","#000000");
+    }
 }
 
 // I
@@ -170,6 +182,10 @@ class Tetrimino_I extends Tetrimino {
     }
 
     get getTetriminoStyle(){
+        return new BlockStyle("#84e4ff","#000000");
+    }
+
+    get darkTetriminoStyle(){
         return new BlockStyle("#84e4ff","#000000");
     }
 }
@@ -205,6 +221,10 @@ class Tetrimino_T extends Tetrimino {
     get getTetriminoStyle(){
         return new BlockStyle("#ac00e0","#000000");
     }
+
+    get darkTetriminoStyle(){
+        return new BlockStyle("#ac00e0","#000000");
+    }
 }
 
 // T
@@ -235,6 +255,10 @@ class Tetrimino_L extends Tetrimino {
     }
 
     get getTetriminoStyle(){
+        return new BlockStyle("#ff8c00","#000000");
+    }
+
+    get darkTetriminoStyle(){
         return new BlockStyle("#ff8c00","#000000");
     }
 }
@@ -270,6 +294,10 @@ class Tetrimino_J extends Tetrimino {
     get getTetriminoStyle(){
         return new BlockStyle("#0043d3","#000000");
     }
+
+    get darkTetriminoStyle(){
+        return new BlockStyle("#0043d3","#000000");
+    }
 }
 
 // S
@@ -303,6 +331,10 @@ class Tetrimino_S extends Tetrimino {
     get getTetriminoStyle(){
         return new BlockStyle("#00ba00","#000000");
     }
+
+    get darkTetriminoStyle(){
+        return new BlockStyle("#00ba00","#000000");
+    }
 }
 
 // Z
@@ -334,6 +366,10 @@ class Tetrimino_Z extends Tetrimino {
     }
 
     get getTetriminoStyle(){
+        return new BlockStyle("#ed0e0e","#000000");
+    }
+
+    get darkTetriminoStyle(){
         return new BlockStyle("#ed0e0e","#000000");
     }
 }

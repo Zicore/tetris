@@ -21,9 +21,10 @@ class Game {
         this.lastCalledTime = performance.now();
         this.currentUpdateFpsTime = 0.0;
         this.deltaTime = 0;
+        this.keysDown = [];
         var tetrimino;
 
-        var playfield = new Playfield(this,320.5, 800.5);
+        var playfield = new Playfield(this, 320.5, 800.5);
         this.playfields = [playfield];
 
         // tetrimino = new Tetrimino_I();
@@ -76,15 +77,15 @@ class Game {
         }
 
         this.context.font = "24px Arial";
-        
+
         this.context.fillStyle = "black";
-        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2),4,22);
+        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2), 4, 22);
         this.context.fillStyle = "red";
-        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2),5,23);
+        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2), 5, 23);
     }
 
     update(lastTick) {
-                
+
         for (var i = 0; i < this.playfields.length; i++) {
             this.playfields[i].update(this, lastTick);
         }
@@ -92,37 +93,45 @@ class Game {
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].update(this, lastTick);
         }
-    
+
+        if(this.keysDown['a']){                
+            this.playfields[0].player.moveLeft();
+        }else if(this.keysDown['d']){
+            this.playfields[0].player.moveRight();
+        }else if(this.keysDown['s']){
+            this.playfields[0].player.startSoftDrop();
+        }
+
         this.calculateFps();
-        
-        this.beginUpdateDelta();   
+
+        this.beginUpdateDelta();
         this.endUpdateDelta();
     }
 
-    beginUpdateDelta(){
+    beginUpdateDelta() {
         var delta = (performance.now() - this.lastCalledTime) / 1000.0;
-        if(delta == 0){
+        if (delta == 0) {
             console.warn("delta is 0");
         }
-        this.deltaTime = delta;     
+        this.deltaTime = delta;
     }
 
-    endUpdateDelta(){           
+    endUpdateDelta() {
         this.lastCalledTime = performance.now();
     }
 
-    calculateFps(){
+    calculateFps() {
         this.currentUpdateFpsTime += this.deltaTime;
-        if(this.currentUpdateFpsTime >= this.updateFpsTime){
+        if (this.currentUpdateFpsTime >= this.updateFpsTime) {
             this.currentUpdateFpsTime = 0.0;
-            this.fpsToDraw = this.fps;        
+            this.fpsToDraw = this.fps;
         }
 
-        this.fps = 1/this.deltaTime;
+        this.fps = 1 / this.deltaTime;
     }
 
     setInitialState() {
-
+        this.initializeControls();
     }
 
     rowToY(row) {
@@ -133,6 +142,36 @@ class Game {
         return col * this.blockSize;
     }
 
+    initializeControls() {
+        document.addEventListener('keydown', (event) => {
+            const keyName = event.key;
+
+            // if (keyName === 'Control') {
+            //     // not alert when only Control key is pressed.
+            //     return;
+            // }
+
+            // if (event.ctrlKey) {
+            //     // Even though event.key is not 'Control' (i.e. 'a' is pressed),
+            //     // event.ctrlKey may be true if Ctrl key is pressed at the time.
+            //     alert(`Combination of ctrlKey + ${keyName}`);
+            // } else {
+            //     alert(`Key pressed ${keyName}`);
+            // }
+
+            this.keysDown[keyName] = true;
+        }, false);
+
+        document.addEventListener('keyup', (event) => {
+            const keyName = event.key;
+
+            if(keyName === 's'){
+                this.playfields[0].player.endSoftDrop();
+            }
+
+            this.keysDown[keyName] = false;
+        }, false);
+    }
     /*
     * Starting with the semicolon is in case whatever line of code above this example
     * relied on automatic semicolon insertion (ASI). The browser could accidentally

@@ -27,7 +27,7 @@ class Matrix extends Entity {
     add(tetrimino){
         for(var i = 0; i < tetrimino.entities.length; i++){
             var block = tetrimino.entities[i];
-            this.cells[block.rowAbs][block.columnAbs].applyBlock(block);
+            this.cells[block.rowAbs][block.columnAbs].applyBlock(tetrimino, block);
         }
     }
 
@@ -39,7 +39,25 @@ class Matrix extends Entity {
                 if(cell.visible){
                     for(var i = 0; i < tetrimino.entities.length; i++){
                         var block = tetrimino.entities[i];
-                        if(block.columnAbs == cell.column && block.rowAbs + 1 >= cell.row){
+                        if(block.columnAbs == cell.column && block.rowAbs + 1 == cell.row){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    isTranslationInvalid(tetrimino, rows,columns){
+        for (var r = 0; r < this.cells.length; r++) {
+            var row = this.cells[r];
+            for (var c = 0; c < row.length; c++) {
+                var cell = row[c];
+                if(cell.visible){
+                    for(var i = 0; i < tetrimino.entities.length; i++){
+                        var block = tetrimino.entities[i];
+                        if(block.rowAbs == cell.row && (block.columnAbs + columns == cell.column || block.columnAbs - columns == cell.column)){
                             return true;
                         }
                     }
@@ -63,11 +81,10 @@ class Cell extends Entity {
         this.block.render(game,tFrame);
     }
 
-    applyBlock(block){
+    applyBlock(tetrimino, block){
         this.row = block.rowAbs;
         this.column = block.columnAbs;
-        this.block.blockStyle = block.blockStyle;
-        //this.block.parent = block.parent;
+        this.block.blockStyle = tetrimino.darkTetriminoStyle;
         this.block.visible = true;
     }
 
