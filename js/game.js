@@ -11,7 +11,6 @@ class Game {
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this.index = 0;
-        this.playfields = [new Playfield(320.5, 800.5)];
         this.blockSize = 32;
         this.secondsPerLine = 0.15;
         this.maxRows = 25;
@@ -23,6 +22,9 @@ class Game {
         this.currentUpdateFpsTime = 0.0;
         this.deltaTime = 0;
         var tetrimino;
+
+        var playfield = new Playfield(this,320.5, 800.5);
+        this.playfields = [playfield];
 
         // tetrimino = new Tetrimino_I();
         // tetrimino.row = 1;

@@ -84,7 +84,17 @@ class Tetrimino extends Entity {
     isOutOfBounds(){
         for (var i = 0; i < this.entities.length; i++) {
             var e = this.entities[i];
-            if(e.rowAbs < 0 || e.colAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1 || e.colAbs >= Entity.Game.maxColumns - 1){
+            if(e.rowAbs < 0 || e.columnAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1 || e.columnAbs >= Entity.Game.maxColumns - 1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isTouchingGround(){
+        for (var i = 0; i < this.entities.length; i++) {
+            var e = this.entities[i];
+            if(e.rowAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1){
                 return true;
             }
         }

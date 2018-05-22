@@ -1,9 +1,11 @@
 class Playfield extends Entity {
-    constructor(width, height) {
+    constructor(game,width, height) {
         super();
+        this.game = game;
         this.width = width;
         this.height = height;
-        this.player = new Player();
+        this.player = new Player(game,this);
+        this.matrix = new Matrix(game,this);
     }
 
     initialize(game) {
@@ -37,6 +39,7 @@ class Playfield extends Entity {
 
         ctx.stroke();
 
+        this.matrix.render(game,tFrame);
         this.player.render(game,tFrame);
     }
 

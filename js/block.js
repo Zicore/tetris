@@ -38,14 +38,14 @@ class Block extends Entity {
 
     }
 
-    get colAbs(){
+    get columnAbs(){
         return this.column + this.parent.column;
     }
 
     get rowAbs(){
         return this.row + this.parent.row;
     }
-    
+
     get x(){
         return game.colToX(this.column + this.parent.column);
     }
