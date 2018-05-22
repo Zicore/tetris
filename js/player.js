@@ -3,7 +3,7 @@ class Player extends Entity {
         super();
         this.game = game;
         this.playfield = playfield;
-        this.tetrimino = new Tetrimino_I(game, playfield);
+        this.tetrimino = new Tetrimino_O(game, playfield);
         this.requireGravityUpdate = false;
 
         this.timeToUpdate = 0.0;
@@ -37,6 +37,7 @@ class Player extends Entity {
             if (this.timeToUpdate >= secondsPerLine) {
                 this.timeToUpdate = 0.0;
                 if (!this.tetrimino.isTouchingGround() && !this.tetrimino.isTouchingCells()) {
+                    this.locking = false;
                     this.tetrimino.translateRaw(1, 0);
                 } else {
                     this.locking = true;
@@ -48,7 +49,7 @@ class Player extends Entity {
                 if (this.lockTime >= this.lockTimeMax) {
                     this.lockTime = 0.0;
                     this.playfield.matrix.add(this.tetrimino);
-                    this.tetrimino = new Tetrimino_O(this.game, this.playfield);
+                    this.tetrimino = new Tetrimino_I(this.game, this.playfield);
                     this.tetrimino.column = 3;
                     this.locking = false;
                 }

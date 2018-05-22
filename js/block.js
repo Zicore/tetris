@@ -23,7 +23,7 @@ class Block extends Entity {
             var h = game.canvas.height;
             var blockSize = game.blockSize;
                         
-            ctx.lineWidth = 2;            
+            ctx.lineWidth = 1;            
             ctx.fillStyle = this.blockStyle.fillStyle;
             ctx.strokeStyle = this.blockStyle.strokeStyle;
 

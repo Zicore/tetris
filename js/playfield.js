@@ -45,5 +45,8 @@ class Playfield extends Entity {
 
     update(game, lastTick) {
         this.player.update(game,lastTick);
+        this.matrix.checkPattern();
+        this.matrix.clearHitlist();
+        this.matrix.translateMatrix();
     }
 }
