@@ -12,7 +12,7 @@ class Game {
         this.context = canvas.getContext('2d');
         this.index = 0;
         this.blockSize = 32;
-        this.secondsPerLine = 0.15;
+        this.secondsPerLine = 0.085;
         this.maxRows = 25;
         this.maxColumns = 10;
         this.entities = [];

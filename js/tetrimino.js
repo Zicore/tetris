@@ -16,8 +16,10 @@ const FACING_WEST = 3;
 
 class Tetrimino extends Entity {
 
-    constructor() {
+    constructor(game,playfield) {
         super();
+        this.game = game;
+        this.playfield = playfield;
         this.type = 0;
         this.locked = false;
         this.visible = false;
@@ -100,12 +102,16 @@ class Tetrimino extends Entity {
         }
         return false;
     }
+
+    isTouchingCells(){
+        return this.playfield.matrix.isTouchingCells(this);
+    }
 }
 
 // O
 class Tetrimino_O extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 1;
@@ -137,8 +143,8 @@ class Tetrimino_O extends Tetrimino {
 
 // I
 class Tetrimino_I extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 1;
         this.entities[0].column = 0;
@@ -170,8 +176,8 @@ class Tetrimino_I extends Tetrimino {
 
 // T
 class Tetrimino_T extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 1;
@@ -203,8 +209,8 @@ class Tetrimino_T extends Tetrimino {
 
 // T
 class Tetrimino_L extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 2;
@@ -235,8 +241,8 @@ class Tetrimino_L extends Tetrimino {
 
 // J
 class Tetrimino_J extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 0;
@@ -268,8 +274,8 @@ class Tetrimino_J extends Tetrimino {
 
 // S
 class Tetrimino_S extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 1;
@@ -301,8 +307,8 @@ class Tetrimino_S extends Tetrimino {
 
 // Z
 class Tetrimino_Z extends Tetrimino {
-    constructor() {
-        super();
+    constructor(game,playfield) {
+        super(game,playfield);
 
         this.entities[0].row = 0;
         this.entities[0].column = 0;

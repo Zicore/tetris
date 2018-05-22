@@ -30,6 +30,24 @@ class Matrix extends Entity {
             this.cells[block.rowAbs][block.columnAbs].applyBlock(block);
         }
     }
+
+    isTouchingCells(tetrimino){
+        for (var r = 0; r < this.cells.length; r++) {
+            var row = this.cells[r];
+            for (var c = 0; c < row.length; c++) {
+                var cell = row[c];
+                if(cell.visible){
+                    for(var i = 0; i < tetrimino.entities.length; i++){
+                        var block = tetrimino.entities[i];
+                        if(block.columnAbs == cell.column && block.rowAbs + 1 >= cell.row){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
 
 class Cell extends Entity {
@@ -48,7 +66,12 @@ class Cell extends Entity {
     applyBlock(block){
         this.row = block.rowAbs;
         this.column = block.columnAbs;
+        this.block.blockStyle = block.blockStyle;
         //this.block.parent = block.parent;
         this.block.visible = true;
+    }
+
+    get visible(){
+        return this.block.visible;
     }
 }
