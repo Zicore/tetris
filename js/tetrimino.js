@@ -58,8 +58,10 @@ class Tetrimino extends Entity {
         return FACING_WEST;
     }
 
-    get color(){
-        return "#";
+    set setBlockStyle(val){
+        for (var i = 0; i < this.entities.length; i++) {
+            this.entities[i].setBlockStyle(val);
+        }
     }
 }
 
@@ -83,9 +85,6 @@ class Tetrimino_O extends Tetrimino {
 
     render(game, tFrame) {
         var ctx = game.context;
-
-        ctx.fillStyle = '#FFFF00';
-        ctx.strokeStyle = '#000000';
 
         super.render(game, tFrame);
     }
@@ -116,9 +115,6 @@ class Tetrimino_I extends Tetrimino {
     render(game, tFrame) {
         var ctx = game.context;
 
-        ctx.fillStyle = '#84e4ff';
-        ctx.strokeStyle = '#000000';
-
         super.render(game, tFrame);
     }
 
@@ -148,9 +144,6 @@ class Tetrimino_T extends Tetrimino {
     render(game, tFrame) {
         var ctx = game.context;
 
-        ctx.fillStyle = '#ac00e0';
-        ctx.strokeStyle = '#000000';
-
         super.render(game, tFrame);
     }
 
@@ -179,10 +172,6 @@ class Tetrimino_L extends Tetrimino {
 
     render(game, tFrame) {
         var ctx = game.context;
-
-        ctx.fillStyle = '#ff8c00';
-        ctx.strokeStyle = '#000000';
-
         super.render(game, tFrame);
     }
 
@@ -211,9 +200,6 @@ class Tetrimino_J extends Tetrimino {
 
     render(game, tFrame) {
         var ctx = game.context;
-
-        ctx.fillStyle = '#0043d3';
-        ctx.strokeStyle = '#000000';
 
         super.render(game, tFrame);
     }
@@ -244,9 +230,6 @@ class Tetrimino_S extends Tetrimino {
     render(game, tFrame) {
         var ctx = game.context;
 
-        ctx.fillStyle = '#00ba00';
-        ctx.strokeStyle = '#000000';
-
         super.render(game, tFrame);
     }
 
@@ -275,9 +258,6 @@ class Tetrimino_Z extends Tetrimino {
 
     render(game, tFrame) {
         var ctx = game.context;
-
-        ctx.fillStyle = '#ed0e0e';
-        ctx.strokeStyle = '#000000';
 
         super.render(game, tFrame);
     }

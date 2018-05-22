@@ -18,40 +18,41 @@ class Game {
         this.updateFpsTime = 1.0;
         this.fpsToDraw = 0;
         this.currentUpdateFpsTime = 0.0;
+        var tetrimono;
 
-        var tetrimono = new Tetrimino_I();
-        tetrimono.row = 1;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_I();
+        // tetrimono.row = 1;
+        // this.entities.push(tetrimono);
 
-        tetrimono = new Tetrimino_O();
-        tetrimono.column = 4;
-        tetrimono.row = 3;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_O();
+        // tetrimono.column = 4;
+        // tetrimono.row = 3;
+        // this.entities.push(tetrimono);
 
         tetrimono = new Tetrimino_T();
         tetrimono.column = 4;
         tetrimono.row = 6;
         this.entities.push(tetrimono);
 
-        tetrimono = new Tetrimino_L();
-        tetrimono.column = 6;
-        tetrimono.row = 9;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_L();
+        // tetrimono.column = 6;
+        // tetrimono.row = 9;
+        // this.entities.push(tetrimono);
 
-        tetrimono = new Tetrimino_J();
-        tetrimono.column = 3;
-        tetrimono.row = 12;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_J();
+        // tetrimono.column = 3;
+        // tetrimono.row = 12;
+        // this.entities.push(tetrimono);
 
-        tetrimono = new Tetrimino_S();
-        tetrimono.column = 4;
-        tetrimono.row = 15;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_S();
+        // tetrimono.column = 4;
+        // tetrimono.row = 15;
+        // this.entities.push(tetrimono);
 
-        tetrimono = new Tetrimino_Z();
-        tetrimono.column = 1;
-        tetrimono.row = 18;
-        this.entities.push(tetrimono);
+        // tetrimono = new Tetrimino_Z();
+        // tetrimono.column = 1;
+        // tetrimono.row = 18;
+        // this.entities.push(tetrimono);
     }
 
     render(tFrame) {
