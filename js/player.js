@@ -3,7 +3,9 @@ class Player extends Entity {
         super();
         this.game = game;
         this.playfield = playfield;
-        this.tetrimino = new Tetrimino_O(game, playfield);
+        this.tetrimino = new Tetrimino_I(game, playfield);
+        
+
         this.requireGravityUpdate = false;
 
         this.timeToUpdate = 0.0;
@@ -19,6 +21,8 @@ class Player extends Entity {
         this.autoRepeat = false;
         this.autoRepeatTime = 0.0;
         this.autoRepeatTimeMax = 0.2;
+
+        this.rotating = false;
     }
 
     render(game, tFrame) {
@@ -61,8 +65,6 @@ class Player extends Entity {
                     }
                 }
             }
-
-                      
         }
     }
 
@@ -118,5 +120,23 @@ class Player extends Entity {
 
     endSoftDrop() {
         this.isSoftDropping = false;
+    }
+
+    rotateClockwise(){        
+        if(!this.rotating){
+            this.tetrimino.rotateClockwise();
+            this.rotating = true;
+        }
+    }
+
+    rotateCounterClockwise(){
+        if(!this.rotating){
+            this.tetrimino.rotateCounterClockwise();
+            this.rotating = true;
+        }
+    }
+
+    endRotate(){
+        this.rotating = false;
     }
 }

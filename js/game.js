@@ -60,6 +60,37 @@ class Game {
         // tetrimino.column = 1;
         // tetrimino.row = 18;
         // this.entities.push(tetrimino);
+
+        this.scenario1();
+    }
+
+    scenario1(){
+        var matrix = this.playfields[0].matrix;
+
+        matrix.cells[22][0].block.visible = true;
+        matrix.cells[22][1].block.visible = true;
+        matrix.cells[22][2].block.visible = true;
+        matrix.cells[22][3].block.visible = true;
+        matrix.cells[22][4].block.visible = true;
+        matrix.cells[22][5].block.visible = true;
+        matrix.cells[22][6].block.visible = true;
+        matrix.cells[22][7].block.visible = true;
+        matrix.cells[22][8].block.visible = true;
+
+        matrix.cells[23][0].block.visible = true;
+        matrix.cells[23][1].block.visible = true;
+        matrix.cells[23][2].block.visible = true;
+        matrix.cells[23][3].block.visible = true;
+        matrix.cells[23][4].block.visible = true;
+        matrix.cells[23][5].block.visible = true;
+        matrix.cells[23][6].block.visible = true;
+        matrix.cells[23][7].block.visible = true;
+        matrix.cells[23][8].block.visible = true;
+
+        this.playfields[0].player.tetrimino.column = 8;
+        this.playfields[0].player.tetrimino.facing = Tetrimino.FACING_WEST;
+        this.playfields[0].player.tetrimino.setMatrixByFacing(this.playfields[0].player.tetrimino.facing);
+        
     }
 
     render(tFrame) {
@@ -100,7 +131,12 @@ class Game {
             this.playfields[0].player.moveRight();
         }else if(this.keysDown['ArrowDown']){
             this.playfields[0].player.startSoftDrop();
+        }else if(this.keysDown['Control']){
+            this.playfields[0].player.rotateCounterClockwise();
+        }else if(this.keysDown['x']){
+            this.playfields[0].player.rotateClockwise();
         }
+
 
         this.calculateFps();
 
@@ -172,7 +208,13 @@ class Game {
             }
             else if(keyName === 'ArrowDown'){
                 this.playfields[0].player.endSoftDrop();
+            }else if(keyName === 'Control'){
+                this.playfields[0].player.endRotate();
+            }else if(keyName === 'x'){
+                this.playfields[0].player.endRotate();
             }
+
+            console.info("Code: " + event.keyCode + " KeyName: " + event.key);
 
             this.keysDown[keyName] = false;
         }, false);

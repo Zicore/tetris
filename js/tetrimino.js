@@ -25,7 +25,7 @@ class Tetrimino extends Entity {
         this.visible = false;
         this.row = 0;
         this.column = 0;
-        this.facing = FACING_NORTH;
+        this.facing = FACING_NORTH;        
         this.entities = [
             new Block(this,true),
             new Block(this,true),
@@ -34,6 +34,7 @@ class Tetrimino extends Entity {
         ];
 
         this.setBlockStyle(this.getTetriminoStyle);
+        this.setMatrixByFacing(this.facing);
     }
 
     render(game, tFrame) {
@@ -113,6 +114,38 @@ class Tetrimino extends Entity {
 
     isTouchingCells(){
         return this.playfield.matrix.isTouchingCells(this);
+    }    
+
+    getNextCounterClockwiseFacing(){
+        var facing = this.facing - 1;
+        if(facing < Tetrimino.FACING_NORTH){
+            facing = Tetrimino.FACING_WEST;
+        }
+        return facing;
+    }
+
+    getNextClockwiseFacing(){
+        var facing = this.facing + 1;
+        if(facing > Tetrimino.FACING_WEST){
+            facing = Tetrimino.FACING_NORTH;
+        }
+        return facing;
+    }
+
+    setMatrixByFacing(){
+        
+    }
+    
+    rotateClockwise(){
+        var facing = this.getNextClockwiseFacing();
+        this.setMatrixByFacing(facing);
+        this.facing = facing;
+    }
+
+    rotateCounterClockwise(){
+        var facing = this.getNextCounterClockwiseFacing();
+        this.setMatrixByFacing(facing);
+        this.facing = facing;
     }
 }
 
@@ -120,18 +153,6 @@ class Tetrimino extends Entity {
 class Tetrimino_O extends Tetrimino {
     constructor(game,playfield) {
         super(game,playfield);
-
-        this.entities[0].row = 0;
-        this.entities[0].column = 1;
-
-        this.entities[1].row = 0;
-        this.entities[1].column = 2;
-
-        this.entities[2].row = 1;
-        this.entities[2].column = 1;
-
-        this.entities[3].row = 1;
-        this.entities[3].column = 2;
     }
 
     render(game, tFrame) {
@@ -152,31 +173,33 @@ class Tetrimino_O extends Tetrimino {
         return new BlockStyle("#f9e20e","#000000");
     }
 
-    roateClockwise(){
+    rotateClockwise(){
 
     }
 
     rotateCounterClockwise(){
 
     }
+
+    setMatrixByFacing(){
+        this.entities[0].row = 0;
+        this.entities[0].column = 1;
+
+        this.entities[1].row = 0;
+        this.entities[1].column = 2;
+
+        this.entities[2].row = 1;
+        this.entities[2].column = 1;
+
+        this.entities[3].row = 1;
+        this.entities[3].column = 2;
+    }
 }
 
 // I
 class Tetrimino_I extends Tetrimino {
     constructor(game,playfield) {
-        super(game,playfield);
-
-        this.entities[0].row = 1;
-        this.entities[0].column = 0;
-
-        this.entities[1].row = 1;
-        this.entities[1].column = 1;
-
-        this.entities[2].row = 1;
-        this.entities[2].column = 2;
-
-        this.entities[3].row = 1;
-        this.entities[3].column = 3;
+        super(game,playfield);        
     }
 
     render(game, tFrame) {
@@ -197,12 +220,66 @@ class Tetrimino_I extends Tetrimino {
         return new BlockStyle("#53d1f4","#000000");
     }
 
-    roateClockwise(){
-        
-    }
+    // rotateClockwise(){
+    //     super.rotateClockwise();    
+    // }
 
-    rotateCounterClockwise(){
+    // rotateCounterClockwise(){
+    //     super.rotateCounterClockwise();
+    // }
 
+    setMatrixByFacing(facing){
+        if(facing == Tetrimino.FACING_NORTH){            
+            this.entities[0].row = 1;
+            this.entities[0].column = 0;
+
+            this.entities[1].row = 1;
+            this.entities[1].column = 1;
+
+            this.entities[2].row = 1;
+            this.entities[2].column = 2;
+
+            this.entities[3].row = 1;
+            this.entities[3].column = 3;
+        }else if(facing == Tetrimino.FACING_EAST){
+            this.entities[0].row = 0;
+            this.entities[0].column = 2;
+
+            this.entities[1].row = 1;
+            this.entities[1].column = 2;
+
+            this.entities[2].row = 2;
+            this.entities[2].column = 2;
+
+            this.entities[3].row = 3;
+            this.entities[3].column = 2;
+        }
+        else if(facing == Tetrimino.FACING_SOUTH){
+            this.entities[0].row = 2;
+            this.entities[0].column = 0;
+
+            this.entities[1].row = 2;
+            this.entities[1].column = 1;
+
+            this.entities[2].row = 2;
+            this.entities[2].column = 2;
+
+            this.entities[3].row = 2;
+            this.entities[3].column = 3;
+        }
+        else if(facing == Tetrimino.FACING_WEST){
+            this.entities[0].row = 0;
+            this.entities[0].column = 1;
+
+            this.entities[1].row = 1;
+            this.entities[1].column = 1;
+
+            this.entities[2].row = 2;
+            this.entities[2].column = 1;
+
+            this.entities[3].row = 3;
+            this.entities[3].column = 1;
+        }
     }
 }
 

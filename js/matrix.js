@@ -6,6 +6,7 @@ class Matrix extends Entity {
         this.translationRequired = false;
         this.hitlist = [];
         this.rowsToClear = 0;
+        this.rowList = [];
         this.cells = [];
 
         this.createMatrix();
@@ -97,9 +98,10 @@ class Matrix extends Entity {
                                 this.hitlist.push(tempHitlist[i]);
                             }
                             this.rowsToClear++;
+                            this.rowList.push(r);
                         }
                     }
-                }                
+                }
             }
             this.isAnimating = this.hitlist.length > 0;
         }
@@ -116,8 +118,8 @@ class Matrix extends Entity {
             for (var i = 0; i < this.hitlist.length; i++) {
                 this.hitlist[i].block.visible = this.animationState % 2 == 0; // invisible on every second step to blink
             }
-            
-            if(this.animationState >= 6){
+
+            if (this.animationState >= 6) {
                 this.isAnimating = false;
                 this.animationState = 0;
             }
@@ -133,6 +135,21 @@ class Matrix extends Entity {
                 this.translationRequired = true;
             }
         }
+    }
+
+    calculateRows(index){
+        var rows = 0;
+        var lastIndex = 0;
+        for(var i = 0; i < this.rowList.length; i++){
+            if(index <= this.rowList[i]){
+                var diff = this.rowList[i] - lastIndex;
+                if(lastIndex == 0 || diff == 1){
+                    rows++;
+                }
+                lastIndex = this.rowList[i];
+            }
+        }
+        return rows;
     }
 
     translateMatrix() {
@@ -151,22 +168,26 @@ class Matrix extends Entity {
 
                 this.createMatrix(); // empty matrix
 
-                for (var r = 0; r < this.cells.length; r++) {
-                    var row = this.cells[r];
-                    for (var c = 0; c < row.length; c++) {
-                        var cell = row[c];
-                        for (var i = 0; i < minos.length; i++) {
-                            var translatedCell = minos[i];
-                            if (translatedCell.row + this.rowsToClear == cell.row && translatedCell.column == cell.column) {
-                                cell.block = translatedCell.block;
-                                cell.block.parent = cell;
-                            }
+                for(var i = 0; i < this.rowList.length; i++){
+                    var rowIndex = this.rowList[i];                    
+                    for (var i = 0; i < minos.length; i++) {
+                        var mino = minos[i];
+                        if(mino.row < rowIndex){
+                            var rows = this.calculateRows(mino.row);
+                            var cell = this.cells[mino.row + rows][mino.column];
+                            cell.block = mino.block;
+                            cell.block.parent = cell;
+                        }else{
+                            var cell = this.cells[mino.row ][mino.column];
+                            cell.block = mino.block;
+                            cell.block.parent = cell;
                         }
                     }
                 }
 
                 this.translationRequired = false;
                 this.rowsToClear = 0;
+                this.rowList.length = 0;
                 this.hitlist.length = 0;
             }
         }
