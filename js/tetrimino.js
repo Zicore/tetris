@@ -149,7 +149,15 @@ class Tetrimino_O extends Tetrimino {
     }
 
     get darkTetriminoStyle(){
-        return new BlockStyle("#FFFF00","#000000");
+        return new BlockStyle("#f9e20e","#000000");
+    }
+
+    roateClockwise(){
+
+    }
+
+    rotateCounterClockwise(){
+
     }
 }
 
@@ -186,7 +194,15 @@ class Tetrimino_I extends Tetrimino {
     }
 
     get darkTetriminoStyle(){
-        return new BlockStyle("#84e4ff","#000000");
+        return new BlockStyle("#53d1f4","#000000");
+    }
+
+    roateClockwise(){
+        
+    }
+
+    rotateCounterClockwise(){
+
     }
 }
 

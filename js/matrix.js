@@ -8,10 +8,21 @@ class Matrix extends Entity {
         this.rowsToClear = 0;
         this.cells = [];
 
-        for (var r = 0; r < game.maxRows; r++) {
+        this.createMatrix();
+
+        this.isAnimating = false;
+        this.animateSmallTime = 0.0;
+        this.animateSmallTimeMax = 0.06;
+        this.animationState = 0;
+    }
+
+    createMatrix() {
+        this.cells = [];
+
+        for (var r = 0; r < this.game.maxRows; r++) {
             var row = [];
-            for (var c = 0; c < game.maxColumns; c++) {
-                row.push(new Cell(game, r, c));
+            for (var c = 0; c < this.game.maxColumns; c++) {
+                row.push(new Cell(this.game, r, c));
             }
             this.cells.push(row);
         }
@@ -71,60 +82,100 @@ class Matrix extends Entity {
     }
 
     checkPattern() {
-        for (var r = 0; r < this.cells.length; r++) {
-            var row = this.cells[r];
-            var rowCompleteIndex = 0;
-            var tempHitlist = [];
-            for (var c = 0; c < row.length; c++) {
-                var cell = row[c];
-                if (cell.visible) {
-                    rowCompleteIndex++;
-                    tempHitlist.push(cell);
-                    if (rowCompleteIndex == this.game.maxColumns) {
-                        for (var i = 0; i < tempHitlist.length; i++) {
-                            this.hitlist.push(tempHitlist[i]);
+        if (!this.isAnimating) {
+            for (var r = 0; r < this.cells.length; r++) {
+                var row = this.cells[r];
+                var rowCompleteIndex = 0;
+                var tempHitlist = [];
+                for (var c = 0; c < row.length; c++) {
+                    var cell = row[c];
+                    if (cell.visible) {
+                        rowCompleteIndex++;
+                        tempHitlist.push(cell);
+                        if (rowCompleteIndex == this.game.maxColumns) {
+                            for (var i = 0; i < tempHitlist.length; i++) {
+                                this.hitlist.push(tempHitlist[i]);
+                            }
+                            this.rowsToClear++;
                         }
-                        this.rowsToClear++;
                     }
-                }
+                }                
+            }
+            this.isAnimating = this.hitlist.length > 0;
+        }
+    }
+
+    animateHitlist() {
+        if (this.isAnimating) {
+            this.animateSmallTime += this.game.deltaTime;
+            if (this.animateSmallTime >= this.animateSmallTimeMax) {
+                this.animateSmallTime = 0.0;
+                this.animationState++;
+            }
+
+            for (var i = 0; i < this.hitlist.length; i++) {
+                this.hitlist[i].block.visible = this.animationState % 2 == 0; // invisible on every second step to blink
+            }
+            
+            if(this.animationState >= 6){
+                this.isAnimating = false;
+                this.animationState = 0;
             }
         }
     }
 
     clearHitlist() {
-        if (this.hitlist.length > 0) {
-            for (var i = 0; i < this.hitlist.length; i++) {
-                this.hitlist[i].kill();
+        if (!this.isAnimating) {
+            if (this.hitlist.length > 0) {
+                for (var i = 0; i < this.hitlist.length; i++) {
+                    this.hitlist[i].kill();
+                }
+                this.translationRequired = true;
             }
-            this.translationRequired = true;
         }
     }
 
     translateMatrix() {
-        if (this.translationRequired) {
-            for (var r = 0; r < this.cells.length; r++) {
-                var row = this.cells[r];
-                for (var c = 0; c < row.length; c++) {
-                    var cell = row[c];
-                    //cell.row = (cell.row + this.rowsToClear) % this.game.maxRows;
-                    var nextIndex = this.rowIndex(r+1);
-                    var block = this.cells[prevIndex][c].block;
-                    if(cell.visible){
-                        block.blockStyle = cell.block.blockStyle;
-                        block.visible = cell.block.visible;
-                    }                    
+        if (!this.isAnimating) {
+            if (this.translationRequired) {
+                var minos = [];
+                for (var r = 0; r < this.cells.length; r++) {
+                    var row = this.cells[r];
+                    for (var c = 0; c < row.length; c++) {
+                        var cell = row[c];
+                        if (cell.visible) {
+                            minos.push(cell);
+                        }
+                    }
                 }
+
+                this.createMatrix(); // empty matrix
+
+                for (var r = 0; r < this.cells.length; r++) {
+                    var row = this.cells[r];
+                    for (var c = 0; c < row.length; c++) {
+                        var cell = row[c];
+                        for (var i = 0; i < minos.length; i++) {
+                            var translatedCell = minos[i];
+                            if (translatedCell.row + this.rowsToClear == cell.row && translatedCell.column == cell.column) {
+                                cell.block = translatedCell.block;
+                                cell.block.parent = cell;
+                            }
+                        }
+                    }
+                }
+
+                this.translationRequired = false;
+                this.rowsToClear = 0;
+                this.hitlist.length = 0;
             }
-            this.translationRequired = false;
-            this.rowsToClear = 0;
-            this.hitlist.length = 0;
         }
     }
 
-    rowIndex(row){
-        if(row < 0){
+    rowIndex(row) {
+        if (row < 0) {
             return this.game.maxRows + row;
-        }else{
+        } else {
             return row % this.game.maxRows;
         }
     }
@@ -148,6 +199,7 @@ class Cell extends Entity {
         //this.column = block.columnAbs;
         this.block.blockStyle = tetrimino.darkTetriminoStyle;
         this.block.visible = true;
+        this.block.parent = this;
     }
 
     get visible() {

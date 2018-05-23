@@ -2,6 +2,7 @@ class BlockStyle {
     constructor(fillStyle,strokeStyle){
         this.fillStyle = fillStyle;
         this.strokeStyle = strokeStyle;
+        this.animate = false;
     }
 }
 
@@ -23,9 +24,15 @@ class Block extends Entity {
             var h = game.canvas.height;
             var blockSize = game.blockSize;
                         
-            ctx.lineWidth = 1;            
-            ctx.fillStyle = this.blockStyle.fillStyle;
-            ctx.strokeStyle = this.blockStyle.strokeStyle;
+            ctx.lineWidth = 1;
+
+            // if(this.animate){
+            //     ctx.fillStyle = '#FFFFFF';
+            //     ctx.strokeStyle = '#FFFFFF';
+            // }else{
+                ctx.fillStyle = this.blockStyle.fillStyle;
+                ctx.strokeStyle = this.blockStyle.strokeStyle;
+            // }
 
             var x = this.x;
             var y = this.y;

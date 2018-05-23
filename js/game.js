@@ -94,11 +94,11 @@ class Game {
             this.entities[i].update(this, lastTick);
         }
 
-        if(this.keysDown['a']){                
+        if(this.keysDown['ArrowLeft']){                
             this.playfields[0].player.moveLeft();
-        }else if(this.keysDown['d']){
+        }else if(this.keysDown['ArrowRight']){
             this.playfields[0].player.moveRight();
-        }else if(this.keysDown['s']){
+        }else if(this.keysDown['ArrowDown']){
             this.playfields[0].player.startSoftDrop();
         }
 
@@ -165,7 +165,12 @@ class Game {
         document.addEventListener('keyup', (event) => {
             const keyName = event.key;
 
-            if(keyName === 's'){
+            if(keyName === 'ArrowLeft'){
+                this.playfields[0].player.stopMovement();
+            }else if(keyName === 'ArrowRight'){
+                this.playfields[0].player.stopMovement();
+            }
+            else if(keyName === 'ArrowDown'){
                 this.playfields[0].player.endSoftDrop();
             }
 
