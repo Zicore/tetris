@@ -3,15 +3,15 @@ class Player extends Entity {
         super();
         this.game = game;
         this.playfield = playfield;
-        this.tetrimino = new Tetrimino_I(game, playfield);
-        
+        this.tetrimino = new Tetrimino_T(game, playfield);
+
 
         this.requireGravityUpdate = false;
 
         this.timeToUpdate = 0.0;
         this.locking = false;
         this.lockTime = 0.0;
-        this.lockTimeMax = 0.25;
+        this.lockTimeMax = 0.35;
 
         this.movementTime = 0.0;
         this.movementTimeMax = 0.1;
@@ -59,7 +59,7 @@ class Player extends Entity {
                     if (this.lockTime >= this.lockTimeMax) {
                         this.lockTime = 0.0;
                         this.playfield.matrix.add(this.tetrimino);
-                        this.tetrimino = new Tetrimino_I(this.game, this.playfield);
+                        this.tetrimino = new Tetrimino_T(this.game, this.playfield);
                         this.tetrimino.column = 3;
                         this.locking = false;
                     }

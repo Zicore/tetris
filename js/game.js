@@ -83,7 +83,7 @@ class Game {
         matrix.cells[23][3].block.visible = true;
         matrix.cells[23][4].block.visible = true;
         matrix.cells[23][5].block.visible = true;
-        matrix.cells[23][6].block.visible = true;
+        matrix.cells[23][6].block.visible = false;
         matrix.cells[23][7].block.visible = true;
         matrix.cells[23][8].block.visible = true;
 
