@@ -552,7 +552,7 @@ class Tetrimino_S extends Tetrimino {
             this.entities[0].row = 0;
             this.entities[0].column = 1;
 
-            this.entities[1].row = 0;
+            this.entities[1].row = 1;
             this.entities[1].column = 1;
 
             this.entities[2].row = 1;

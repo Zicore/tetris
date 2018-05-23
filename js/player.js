@@ -3,15 +3,13 @@ class Player extends Entity {
         super();
         this.game = game;
         this.playfield = playfield;
-        this.tetrimino = new Tetrimino_T(game, playfield);
-
-
         this.requireGravityUpdate = false;
 
+        this.tetrimino = null;
         this.timeToUpdate = 0.0;
         this.locking = false;
         this.lockTime = 0.0;
-        this.lockTimeMax = 0.35;
+        this.lockTimeMax = 0.5;
 
         this.movementTime = 0.0;
         this.movementTimeMax = 0.1;
@@ -59,13 +57,39 @@ class Player extends Entity {
                     if (this.lockTime >= this.lockTimeMax) {
                         this.lockTime = 0.0;
                         this.playfield.matrix.add(this.tetrimino);
-                        this.tetrimino = new Tetrimino_T(this.game, this.playfield);
-                        this.tetrimino.column = 3;
+                        this.spawnNextTetrimono();
                         this.locking = false;
                     }
                 }
             }
         }
+    }
+
+    start(){        
+        this.spawnNextTetrimono();
+    }
+
+    spawnNextTetrimono(){
+        this.tetrimino = this.getNextTetrimino(this.game,this.playfield);
+        this.tetrimino.column = 3;
+    }    
+
+    getNextTetrimino(game, playfield){
+        // return new Tetrimino_L(game, playfield);
+        var index = Player.getRandomInteger(0,6);
+        switch(index){
+            case 0: return new Tetrimino_O(game, playfield);
+            case 1: return new Tetrimino_I(game, playfield);
+            case 2: return new Tetrimino_T(game, playfield);
+            case 3: return new Tetrimino_L(game, playfield);
+            case 4: return new Tetrimino_J(game, playfield);
+            case 5: return new Tetrimino_S(game, playfield);
+            case 6: return new Tetrimino_Z(game, playfield);
+        }
+    }
+
+    static getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
 
     autoRepeatTimer(){

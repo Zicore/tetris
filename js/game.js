@@ -12,7 +12,7 @@ class Game {
         this.context = canvas.getContext('2d');
         this.index = 0;
         this.blockSize = 32;
-        this.secondsPerLine = 0.085;
+        this.secondsPerLine = 0.15;
         this.maxRows = 25;
         this.maxColumns = 10;
         this.entities = [];
@@ -21,47 +21,14 @@ class Game {
         this.lastCalledTime = performance.now();
         this.currentUpdateFpsTime = 0.0;
         this.deltaTime = 0;
-        this.keysDown = [];
-        var tetrimino;
+        this.keysDown = [];        
+        this.bag = [];
+
 
         var playfield = new Playfield(this, 320.5, 800.5);
         this.playfields = [playfield];
-
-        // tetrimino = new Tetrimino_I();
-        // tetrimino.row = 1;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_O();
-        // tetrimino.column = 4;
-        // tetrimino.row = 3;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_T();
-        // tetrimino.column = 4;
-        // tetrimino.row = 6;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_L();
-        // tetrimino.column = 6;
-        // tetrimino.row = 9;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_J();
-        // tetrimino.column = 3;
-        // tetrimino.row = 12;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_S();
-        // tetrimino.column = 4;
-        // tetrimino.row = 15;
-        // this.entities.push(tetrimino);
-
-        // tetrimino = new Tetrimino_Z();
-        // tetrimino.column = 1;
-        // tetrimino.row = 18;
-        // this.entities.push(tetrimino);
-
-        this.scenario1();
+        
+        playfield.player.start();
     }
 
     scenario1(){
