@@ -54,11 +54,11 @@ class Player extends Entity {
 
                 if (this.locking) {
                     this.lockTime += game.deltaTime;
-                    if (this.lockTime >= this.lockTimeMax) {
-                        this.lockTime = 0.0;
+                    if (this.lockTime >= this.lockTimeMax) {                        
                         this.playfield.matrix.add(this.tetrimino);
                         this.spawnNextTetrimono();
                         this.locking = false;
+                        this.lockTime = 0.0;
                     }
                 }
             }

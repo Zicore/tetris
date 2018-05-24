@@ -2,6 +2,7 @@ body{
     background-color: white;
     margin:0px;
     padding:0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .playfield{
@@ -11,7 +12,10 @@ body{
 }
 
 .outer {
+    margin-top:50px;
+}
+
+.center {
     display:flex;
     justify-content: center;
-    margin-top:100px;
 }
