@@ -15,7 +15,6 @@ class Game {
         this.secondsPerLine = 0.15;
         this.maxRows = 25;
         this.maxColumns = 10;
-        this.entities = [];
         this.updateFpsTime = 1.0;
         this.fpsToDraw = 0;
         this.lastCalledTime = performance.now();
@@ -24,21 +23,44 @@ class Game {
         this.keysDown = [];        
         this.bag = [];
 
+        this.paused = false;
 
         var playfield = new Playfield(this, 320.5, 800.5);
         this.playfields = [playfield];
         
         playfield.player.start();
+
+        // this.scenario1();
     }
 
     scenario1(){
         var matrix = this.playfields[0].matrix;
 
+        matrix.cells[20][0].block.visible = true;
+        matrix.cells[20][1].block.visible = true;
+        matrix.cells[20][2].block.visible = true;
+        matrix.cells[20][3].block.visible = true;
+        matrix.cells[20][4].block.visible = true;
+        matrix.cells[20][5].block.visible = true;
+        matrix.cells[20][6].block.visible = true;
+        matrix.cells[20][7].block.visible = true;
+        matrix.cells[20][8].block.visible = true;
+
+        matrix.cells[21][0].block.visible = true;
+        matrix.cells[21][1].block.visible = true;
+        matrix.cells[21][2].block.visible = true;
+        matrix.cells[21][3].block.visible = true;
+        matrix.cells[21][4].block.visible = true;
+        matrix.cells[21][5].block.visible = true;
+        matrix.cells[21][6].block.visible = true;
+        matrix.cells[21][7].block.visible = true;
+        matrix.cells[21][8].block.visible = true;
+
         matrix.cells[22][0].block.visible = true;
         matrix.cells[22][1].block.visible = true;
         matrix.cells[22][2].block.visible = true;
         matrix.cells[22][3].block.visible = true;
-        matrix.cells[22][4].block.visible = true;
+        matrix.cells[22][4].block.visible = false;
         matrix.cells[22][5].block.visible = true;
         matrix.cells[22][6].block.visible = true;
         matrix.cells[22][7].block.visible = true;
@@ -50,14 +72,13 @@ class Game {
         matrix.cells[23][3].block.visible = true;
         matrix.cells[23][4].block.visible = true;
         matrix.cells[23][5].block.visible = true;
-        matrix.cells[23][6].block.visible = false;
+        matrix.cells[23][6].block.visible = true;
         matrix.cells[23][7].block.visible = true;
         matrix.cells[23][8].block.visible = true;
 
         this.playfields[0].player.tetrimino.column = 8;
         this.playfields[0].player.tetrimino.facing = Tetrimino.FACING_WEST;
-        this.playfields[0].player.tetrimino.setMatrixByFacing(this.playfields[0].player.tetrimino.facing);
-        
+        this.playfields[0].player.tetrimino.setMatrixByFacing(this.playfields[0].player.tetrimino.facing);        
     }
 
     render(tFrame) {
@@ -66,47 +87,48 @@ class Game {
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.context.fillStyle = "#FFFFFF";
+        this.context.fillRect(0,0, this.canvas.width, this.canvas.height);
+
         for (var i = 0; i < this.playfields.length; i++) {
             this.playfields[i].render(this, tFrame);
-        }
-
-        for (var i = 0; i < this.entities.length; i++) {
-            this.entities[i].render(this, tFrame);
         }
 
         this.context.font = "24px Arial";
 
         this.context.fillStyle = "black";
-        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2), 4, 22);
+
+        var infoString = "FPS: " + this.fpsToDraw.toFixed(2);
+
+        if(this.paused){
+            infoString = infoString + " (Paused)";
+        }
+
+        this.context.fillText(infoString, 4, 22);
         this.context.fillStyle = "red";
-        this.context.fillText("FPS: " + this.fpsToDraw.toFixed(2), 5, 23);
+        this.context.fillText(infoString, 5, 23);
     }
 
     update(lastTick) {
 
-        for (var i = 0; i < this.playfields.length; i++) {
-            this.playfields[i].update(this, lastTick);
+        if(!this.paused){
+            for (var i = 0; i < this.playfields.length; i++) {
+                this.playfields[i].update(this, lastTick);
+            }
+            if(this.keysDown['ArrowLeft']){                
+                this.playfields[0].player.moveLeft();
+            }else if(this.keysDown['ArrowRight']){
+                this.playfields[0].player.moveRight();
+            }else if(this.keysDown['ArrowDown']){
+                this.playfields[0].player.startSoftDrop();
+            }else if(this.keysDown['Control']){
+                this.playfields[0].player.rotateCounterClockwise();
+            }else if(this.keysDown['x']){
+                this.playfields[0].player.rotateClockwise();
+            }
         }
-
-        for (var i = 0; i < this.entities.length; i++) {
-            this.entities[i].update(this, lastTick);
-        }
-
-        if(this.keysDown['ArrowLeft']){                
-            this.playfields[0].player.moveLeft();
-        }else if(this.keysDown['ArrowRight']){
-            this.playfields[0].player.moveRight();
-        }else if(this.keysDown['ArrowDown']){
-            this.playfields[0].player.startSoftDrop();
-        }else if(this.keysDown['Control']){
-            this.playfields[0].player.rotateCounterClockwise();
-        }else if(this.keysDown['x']){
-            this.playfields[0].player.rotateClockwise();
-        }
-
 
         this.calculateFps();
-
         this.beginUpdateDelta();
         this.endUpdateDelta();
     }
@@ -145,6 +167,10 @@ class Game {
         return col * this.blockSize;
     }
 
+    togglePause(){
+        this.paused = !this.paused;
+    }
+
     initializeControls() {
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
@@ -179,6 +205,8 @@ class Game {
                 this.playfields[0].player.endRotate();
             }else if(keyName === 'x'){
                 this.playfields[0].player.endRotate();
+            }else if(keyName === 'p'){
+                this.togglePause();
             }
 
             console.info("Code: " + event.keyCode + " KeyName: " + event.key);

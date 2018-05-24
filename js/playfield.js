@@ -1,11 +1,11 @@
 class Playfield extends Entity {
-    constructor(game,width, height) {
+    constructor(game, width, height) {
         super();
         this.game = game;
         this.width = width;
         this.height = height;
-        this.player = new Player(game,this);
-        this.matrix = new Matrix(game,this);
+        this.player = new Player(game, this);
+        this.matrix = new Matrix(game, this);
     }
 
     initialize(game) {
@@ -39,15 +39,15 @@ class Playfield extends Entity {
 
         ctx.stroke();
 
-        this.matrix.render(game,tFrame);
-        this.player.render(game,tFrame);
+        this.matrix.render(game, tFrame);
+        this.player.render(game, tFrame);
     }
 
     update(game, lastTick) {
-        this.player.update(game,lastTick);
+        this.player.update(game, lastTick);
         this.matrix.checkPattern();
         this.matrix.animateHitlist();
         this.matrix.clearHitlist();
-        this.matrix.translateMatrix();
+        this.matrix.translateMatrix();        
     }
 }

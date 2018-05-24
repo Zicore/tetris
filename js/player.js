@@ -65,19 +65,19 @@ class Player extends Entity {
         }
     }
 
-    start(){        
+    start() {
         this.spawnNextTetrimono();
     }
 
-    spawnNextTetrimono(){
-        this.tetrimino = this.getNextTetrimino(this.game,this.playfield);
+    spawnNextTetrimono() {
+        this.tetrimino = this.getNextTetrimino(this.game, this.playfield);
         this.tetrimino.column = 3;
-    }    
+    }
 
-    getNextTetrimino(game, playfield){
-        // return new Tetrimino_L(game, playfield);
-        var index = Player.getRandomInteger(0,6);
-        switch(index){
+    getNextTetrimino(game, playfield) {
+        // return new Tetrimino_I(game, playfield);
+        var index = Player.getRandomInteger(0, 6);
+        switch (index) {
             case 0: return new Tetrimino_O(game, playfield);
             case 1: return new Tetrimino_I(game, playfield);
             case 2: return new Tetrimino_T(game, playfield);
@@ -89,12 +89,12 @@ class Player extends Entity {
     }
 
     static getRandomInteger(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) ) + min;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    autoRepeatTimer(){
+    autoRepeatTimer() {
         this.autoRepeatTime += game.deltaTime;
-        if(this.autoRepeatTime >= this.autoRepeatTimeMax){
+        if (this.autoRepeatTime >= this.autoRepeatTimeMax) {
             this.autoRepeatTime = 0.0;
             this.autoRepeat = true;
         }
@@ -103,10 +103,10 @@ class Player extends Entity {
         if (this.movementTime >= this.movementTimeMax) {
             this.movementTime = 0.0;
             this.allowAutoRepeatMovement = true;
-        }  
+        }
     }
 
-    stopMovement(){
+    stopMovement() {
         this.startedMoving = false;
         this.autoRepeat = false;
         this.autoRepeatTime = 0.0;
@@ -128,7 +128,7 @@ class Player extends Entity {
     moveRight() {
         this.autoRepeatTimer();
 
-        var allowMovement = !this.startedMoving || (this.autoRepeat&& this.allowAutoRepeatMovement);
+        var allowMovement = !this.startedMoving || (this.autoRepeat && this.allowAutoRepeatMovement);
         if (allowMovement) {
             if (this.tetrimino != null && !this.tetrimino.isTranslationInvalid(0, 1) && !this.tetrimino.isMatrixTranslationInvalid(0, 1)) {
                 this.tetrimino.translateRaw(0, 1);
@@ -146,21 +146,21 @@ class Player extends Entity {
         this.isSoftDropping = false;
     }
 
-    rotateClockwise(){        
-        if(!this.rotating){
+    rotateClockwise() {
+        if (!this.rotating) {
             this.tetrimino.rotateClockwise();
             this.rotating = true;
         }
     }
 
-    rotateCounterClockwise(){
-        if(!this.rotating){
+    rotateCounterClockwise() {
+        if (!this.rotating) {
             this.tetrimino.rotateCounterClockwise();
             this.rotating = true;
         }
     }
 
-    endRotate(){
+    endRotate() {
         this.rotating = false;
     }
 }

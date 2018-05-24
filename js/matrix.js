@@ -9,7 +9,7 @@ class Matrix extends Entity {
         this.rowList = [];
         this.cells = [];
 
-        this.createMatrix();
+        this.cells = this.createMatrix();
 
         this.isAnimating = false;
         this.animateSmallTime = 0.0;
@@ -18,15 +18,17 @@ class Matrix extends Entity {
     }
 
     createMatrix() {
-        this.cells = [];
+        var cells = [];
 
         for (var r = 0; r < this.game.maxRows; r++) {
             var row = [];
             for (var c = 0; c < this.game.maxColumns; c++) {
                 row.push(new Cell(this.game, r, c));
             }
-            this.cells.push(row);
+            cells.push(row);
         }
+
+        return cells;
     }
 
     render(game, tFrame) {
@@ -137,16 +139,26 @@ class Matrix extends Entity {
         }
     }
 
-    calculateRows(index){
+    isRowEmpty(row) {
+        var emptyCells = 0;
+        for (var j = 0; j < this.cells[row].length; j++) {
+            if (!this.cells[row][j].visible) {
+                emptyCells++;
+            }
+        }
+        return emptyCells >= this.game.maxColumns;
+    }
+
+    calculateEmptyRowsBelow(index) {
         var rows = 0;
-        var lastIndex = 0;
-        for(var i = 0; i < this.rowList.length; i++){
-            if(index <= this.rowList[i]){
-                var diff = this.rowList[i] - lastIndex;
-                if(lastIndex == 0 || diff == 1){
+        var lastIndex = index;
+        for (var i = index; i < this.game.maxRows; i++) {
+            if (this.isRowEmpty(i)) {
+                var diff = i - lastIndex;
+                if (diff >= 1 || diff == 0) {
                     rows++;
                 }
-                lastIndex = this.rowList[i];
+                lastIndex = i;
             }
         }
         return rows;
@@ -166,24 +178,18 @@ class Matrix extends Entity {
                     }
                 }
 
-                this.createMatrix(); // empty matrix
+                var cells = this.createMatrix(); // empty matrix
 
-                for(var i = 0; i < this.rowList.length; i++){
-                    var rowIndex = this.rowList[i];                    
-                    for (var i = 0; i < minos.length; i++) {
-                        var mino = minos[i];
-                        if(mino.row < rowIndex){
-                            var rows = this.calculateRows(mino.row);
-                            var cell = this.cells[mino.row + rows][mino.column];
-                            cell.block = mino.block;
-                            cell.block.parent = cell;
-                        }else{
-                            var cell = this.cells[mino.row ][mino.column];
-                            cell.block = mino.block;
-                            cell.block.parent = cell;
-                        }
-                    }
+                for (var j = 0; j < minos.length; j++) {
+                    var mino = minos[j];
+                    var rows = this.calculateEmptyRowsBelow(mino.row);
+
+                    var cell = cells[mino.row + rows][mino.column];
+                    cell.block = mino.block;
+                    cell.block.parent = cell;
                 }
+
+                this.cells = cells;
 
                 this.translationRequired = false;
                 this.rowsToClear = 0;
