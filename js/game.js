@@ -19,6 +19,7 @@ class Game {
         this.fpsToDraw = 0;
         this.lastCalledTime = performance.now();
         this.currentUpdateFpsTime = 0.0;
+        this.score = 0;
         this.deltaTime = 0;
         this.keysDown = [];        
         this.bag = [];
@@ -29,7 +30,6 @@ class Game {
         this.playfields = [playfield];
         
         playfield.player.start();
-
         // this.scenario1();
     }
 
