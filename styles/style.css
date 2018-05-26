@@ -6,9 +6,10 @@ body{
 }
 
 .playfield{
-    width: 600px;
-    height: 800px;
-    border: 0px solid red;
+    width: 500px;
+    height: 702px;
+    padding: 1px;
+    border: 0px solid gray;
 }
 
 .outer {

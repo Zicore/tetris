@@ -36,7 +36,7 @@ class Matrix extends Entity {
             var row = this.cells[r];
             for (var c = 0; c < row.length; c++) {
                 var cell = row[c];
-                cell.render(game, tFrame)
+                cell.renderOffset(this.playfield.x,this.playfield.y,game, tFrame);
             }
         }
     }
@@ -217,8 +217,8 @@ class Cell extends Entity {
         this.block = new Block(this, false);
     }
 
-    render(game, tFrame) {
-        this.block.render(game, tFrame);
+    renderOffset(x,y,game, tFrame) {
+        this.block.renderOffset(x,y,game, tFrame);
     }
 
     applyBlock(tetrimino, block) {

@@ -18,6 +18,10 @@ class Block extends Entity {
     }
 
     render(game, tFrame) {
+        this.renderOffset(0,0,game,tFrame);
+    }
+
+    renderOffset(x,y, game,tFrame){
         if (this.visible) {
             var ctx = game.context;
             var w = game.canvas.width;
@@ -25,19 +29,14 @@ class Block extends Entity {
             var blockSize = game.blockSize;
                         
             ctx.lineWidth = 1;
+            
+            ctx.fillStyle = this.blockStyle.fillStyle;
+            ctx.strokeStyle = this.blockStyle.strokeStyle;
 
-            // if(this.animate){
-            //     ctx.fillStyle = '#FFFFFF';
-            //     ctx.strokeStyle = '#FFFFFF';
-            // }else{
-                ctx.fillStyle = this.blockStyle.fillStyle;
-                ctx.strokeStyle = this.blockStyle.strokeStyle;
-            // }
-
-            var x = this.x;
-            var y = this.y;
-            ctx.fillRect(x, y, blockSize, blockSize);
-            ctx.strokeRect(x, y, blockSize, blockSize);
+            var _x = this.x + x;
+            var _y = this.y + y;
+            ctx.fillRect(_x, _y, blockSize, blockSize);
+            ctx.strokeRect(_x, _y, blockSize, blockSize);
         }
     }
 

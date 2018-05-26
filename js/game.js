@@ -11,7 +11,7 @@ class Game {
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this.index = 0;
-        this.blockSize = 32;
+        this.blockSize = 26;
         this.secondsPerLine = 0.25;
         this.maxRows = 25;
         this.maxColumns = 10;
@@ -26,75 +26,37 @@ class Game {
 
         this.paused = false;
 
-        var playfield = new Playfield(this, 320, 800);
+        this.infoScreenWidth = 40;
+
+        this.playfieldWidth = this.blockSize * this.maxColumns;
+        this.playfieldHeight = this.blockSize * this.maxRows;
+
+        this.canvasWidth = 500;
+        this.canvasHeight = 702;
+
+        this.playfieldOffsetY = 50;
+
+        var playfield = new Playfield(this, 0, this.playfieldOffsetY, this.playfieldWidth, this.playfieldHeight);
         this.playfields = [playfield];
         
         playfield.player.start();
         // this.scenario1();
     }
 
-    scenario1(){
-        var matrix = this.playfields[0].matrix;
-
-        matrix.cells[20][0].block.visible = true;
-        matrix.cells[20][1].block.visible = true;
-        matrix.cells[20][2].block.visible = true;
-        matrix.cells[20][3].block.visible = true;
-        matrix.cells[20][4].block.visible = true;
-        matrix.cells[20][5].block.visible = true;
-        matrix.cells[20][6].block.visible = true;
-        matrix.cells[20][7].block.visible = true;
-        matrix.cells[20][8].block.visible = true;
-
-        matrix.cells[21][0].block.visible = true;
-        matrix.cells[21][1].block.visible = true;
-        matrix.cells[21][2].block.visible = true;
-        matrix.cells[21][3].block.visible = true;
-        matrix.cells[21][4].block.visible = true;
-        matrix.cells[21][5].block.visible = true;
-        matrix.cells[21][6].block.visible = true;
-        matrix.cells[21][7].block.visible = true;
-        matrix.cells[21][8].block.visible = true;
-
-        matrix.cells[22][0].block.visible = true;
-        matrix.cells[22][1].block.visible = true;
-        matrix.cells[22][2].block.visible = true;
-        matrix.cells[22][3].block.visible = true;
-        matrix.cells[22][4].block.visible = false;
-        matrix.cells[22][5].block.visible = true;
-        matrix.cells[22][6].block.visible = true;
-        matrix.cells[22][7].block.visible = true;
-        matrix.cells[22][8].block.visible = true;
-
-        matrix.cells[23][0].block.visible = true;
-        matrix.cells[23][1].block.visible = true;
-        matrix.cells[23][2].block.visible = true;
-        matrix.cells[23][3].block.visible = true;
-        matrix.cells[23][4].block.visible = true;
-        matrix.cells[23][5].block.visible = true;
-        matrix.cells[23][6].block.visible = true;
-        matrix.cells[23][7].block.visible = true;
-        matrix.cells[23][8].block.visible = true;
-
-        this.playfields[0].player.tetrimino.column = 8;
-        this.playfields[0].player.tetrimino.facing = Tetrimino.FACING_WEST;
-        this.playfields[0].player.tetrimino.setMatrixByFacing(this.playfields[0].player.tetrimino.facing);        
-    }
-
     render(tFrame) {
-        this.context.canvas.width = 600;
-        this.context.canvas.height = 800;
+        this.context.canvas.width = this.canvasWidth;
+        this.context.canvas.height = this.canvasHeight;
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.context.fillStyle = "#FFFFFF";
+        this.context.fillStyle = "#F3F3F3";
         this.context.fillRect(0,0, this.canvas.width, this.canvas.height);
 
         for (var i = 0; i < this.playfields.length; i++) {
             this.playfields[i].render(this, tFrame);
         }
 
-        this.context.font = "24px Arial";
+        this.context.font = "16px Arial";
 
         this.context.fillStyle = "black";
 
@@ -104,9 +66,7 @@ class Game {
             infoString = infoString + " (Paused)";
         }
 
-        this.context.fillText(infoString, 4, 22);
-        this.context.fillStyle = "red";
-        this.context.fillText(infoString, 5, 23);
+        this.context.fillText(infoString, 2, 18);
     }
 
     update(lastTick) {
@@ -169,6 +129,54 @@ class Game {
 
     togglePause(){
         this.paused = !this.paused;
+    }
+    
+    scenario1(){
+        var matrix = this.playfields[0].matrix;
+
+        matrix.cells[20][0].block.visible = true;
+        matrix.cells[20][1].block.visible = true;
+        matrix.cells[20][2].block.visible = true;
+        matrix.cells[20][3].block.visible = true;
+        matrix.cells[20][4].block.visible = true;
+        matrix.cells[20][5].block.visible = true;
+        matrix.cells[20][6].block.visible = true;
+        matrix.cells[20][7].block.visible = true;
+        matrix.cells[20][8].block.visible = true;
+
+        matrix.cells[21][0].block.visible = true;
+        matrix.cells[21][1].block.visible = true;
+        matrix.cells[21][2].block.visible = true;
+        matrix.cells[21][3].block.visible = true;
+        matrix.cells[21][4].block.visible = true;
+        matrix.cells[21][5].block.visible = true;
+        matrix.cells[21][6].block.visible = true;
+        matrix.cells[21][7].block.visible = true;
+        matrix.cells[21][8].block.visible = true;
+
+        matrix.cells[22][0].block.visible = true;
+        matrix.cells[22][1].block.visible = true;
+        matrix.cells[22][2].block.visible = true;
+        matrix.cells[22][3].block.visible = true;
+        matrix.cells[22][4].block.visible = false;
+        matrix.cells[22][5].block.visible = true;
+        matrix.cells[22][6].block.visible = true;
+        matrix.cells[22][7].block.visible = true;
+        matrix.cells[22][8].block.visible = true;
+
+        matrix.cells[23][0].block.visible = true;
+        matrix.cells[23][1].block.visible = true;
+        matrix.cells[23][2].block.visible = true;
+        matrix.cells[23][3].block.visible = true;
+        matrix.cells[23][4].block.visible = true;
+        matrix.cells[23][5].block.visible = true;
+        matrix.cells[23][6].block.visible = true;
+        matrix.cells[23][7].block.visible = true;
+        matrix.cells[23][8].block.visible = true;
+
+        this.playfields[0].player.tetrimino.column = 8;
+        this.playfields[0].player.tetrimino.facing = Tetrimino.FACING_WEST;
+        this.playfields[0].player.tetrimino.setMatrixByFacing(this.playfields[0].player.tetrimino.facing);        
     }
 
     initializeControls() {

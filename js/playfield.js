@@ -1,7 +1,9 @@
 class Playfield extends Entity {
-    constructor(game, width, height) {
+    constructor(game, x, y, width, height) {
         super();
         this.game = game;
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.player = new Player(game, this);
@@ -13,12 +15,12 @@ class Playfield extends Entity {
     }
 
     render(game, tFrame) {
-        var w = this.width + 0.5;
-        var h = this.height + 0.5;
-        var blockSize = game.blockSize;
+        var w = this.width;
+        var h = this.height;
+        var blockSize = this.game.blockSize;
         var ctx = game.context;
-        var columns = (w / blockSize);
-        var rows = (h / blockSize);
+        var columns = this.game.maxColumns + 1;
+        var rows = this.game.maxRows + 1;
 
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#A0A0A0";
@@ -26,18 +28,23 @@ class Playfield extends Entity {
         ctx.beginPath();
 
         for (var i = 0; i < columns; i++) {
-            var x = i * blockSize + 0.5;
-            ctx.moveTo(x, 0.5);
-            ctx.lineTo(x, h + 0.5);
+            var rx = i * blockSize + 0.5 + this.x;
+            ctx.moveTo(rx, 0.5 + this.y);
+            ctx.lineTo(rx, h + 0.5 + this.y);
         }
 
         for (var i = 0; i < rows; i++) {
-            var y = i * blockSize + 0.5;
-            ctx.moveTo(0.5, y);
-            ctx.lineTo(w + 0.5, y);
+            var ry = i * blockSize + 0.5 + this.y;
+            ctx.moveTo(0.5 + this.x, ry);
+            ctx.lineTo(w + 0.5 + this.x, ry);
         }
 
         ctx.stroke();
+
+        for(var i = 0; i < this.player.nextQueue.length; i++){
+            var tetrimono = this.player.nextQueue[i];
+            tetrimono.renderOffset(340, 60 + ((blockSize - 3) * 3) * i,game, tFrame);
+        }
 
         this.matrix.render(game, tFrame);
         this.player.render(game, tFrame);

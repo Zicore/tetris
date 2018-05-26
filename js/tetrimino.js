@@ -38,8 +38,12 @@ class Tetrimino extends Entity {
     }
 
     render(game, tFrame) {
+        this.renderOffset(0,0,game,tFrame);
+    }
+
+    renderOffset(x,y,game,tFrame){
         for (var i = 0; i < this.entities.length; i++) {
-            this.entities[i].render(game, tFrame);
+            this.entities[i].renderOffset(x,y,game, tFrame);
         }
     }
 
@@ -519,7 +523,6 @@ class Tetrimino_S extends Tetrimino {
 
     render(game, tFrame) {
         var ctx = game.context;
-
         super.render(game, tFrame);
     }
 
