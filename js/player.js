@@ -84,6 +84,7 @@ class Player extends Entity {
 
         this.tetrimino = this.nextQueue.shift();
         this.tetrimino.column = 3;
+        this.tetrimino.row = -2;
     }
 
     getNextTetrimino(game, playfield) {

@@ -86,16 +86,10 @@ class Tetrimino extends Entity {
         this.column += columns;
     }
 
-    translate(rows,columns){
-        if(!this.isOutOfBounds()){
-            this.translateRaw(rows,columns);
-        }
-    }
-
     isTranslationInvalid(rows,columns){
         for (var i = 0; i < this.entities.length; i++) {
             var e = this.entities[i];
-            if(e.rowAbs + rows < 0 || e.columnAbs + columns < 0 || e.rowAbs + rows >= Entity.Game.maxRows || e.columnAbs + columns >= Entity.Game.maxColumns){
+            if(e.rowAbs + rows < -20 || e.columnAbs + columns < 0 || e.rowAbs + rows >= Entity.Game.maxRows || e.columnAbs + columns >= Entity.Game.maxColumns){
                 return true;
             }
         }
@@ -109,7 +103,7 @@ class Tetrimino extends Entity {
     isTouchingGround(){
         for (var i = 0; i < this.entities.length; i++) {
             var e = this.entities[i];
-            if(e.rowAbs < 0 || e.rowAbs >= Entity.Game.maxRows  - 1){
+            if(e.rowAbs < -20 || e.rowAbs >= Entity.Game.maxRows  - 1){
                 return true;
             }
         }
