@@ -12,7 +12,7 @@ class Game {
         this.context = canvas.getContext('2d');
         this.index = 0;
         this.blockSize = 32;
-        this.secondsPerLine = 0.15;
+        this.secondsPerLine = 0.25;
         this.maxRows = 25;
         this.maxColumns = 10;
         this.updateFpsTime = 1.0;
@@ -26,7 +26,7 @@ class Game {
 
         this.paused = false;
 
-        var playfield = new Playfield(this, 320.5, 800.5);
+        var playfield = new Playfield(this, 320, 800);
         this.playfields = [playfield];
         
         playfield.player.start();
@@ -82,7 +82,7 @@ class Game {
     }
 
     render(tFrame) {
-        this.context.canvas.width = 320;
+        this.context.canvas.width = 600;
         this.context.canvas.height = 800;
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);

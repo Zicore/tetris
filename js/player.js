@@ -21,6 +21,8 @@ class Player extends Entity {
         this.autoRepeatTimeMax = 0.2;
 
         this.rotating = false;
+        this.nextQueue = new Queue();
+        this.initializeNextQueue();
     }
 
     render(game, tFrame) {
@@ -65,12 +67,22 @@ class Player extends Entity {
         }
     }
 
+    initializeNextQueue(){
+        for(var i = 0; i < 5; i++){
+            var tetrimino = this.getNextTetrimino(this.game, this.playfield);
+            this.nextQueue.enqueue(tetrimino);
+        }
+    }
+
     start() {
         this.spawnNextTetrimono();
     }
 
     spawnNextTetrimono() {
-        this.tetrimino = this.getNextTetrimino(this.game, this.playfield);
+        var tetrimino = this.getNextTetrimino(this.game, this.playfield);
+        this.nextQueue.enqueue(tetrimino);
+
+        this.tetrimino = this.nextQueue.dequeue();
         this.tetrimino.column = 3;
     }
 

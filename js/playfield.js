@@ -13,8 +13,8 @@ class Playfield extends Entity {
     }
 
     render(game, tFrame) {
-        var w = game.canvas.width;
-        var h = game.canvas.height;
+        var w = this.width + 0.5;
+        var h = this.height + 0.5;
         var blockSize = game.blockSize;
         var ctx = game.context;
         var columns = (w / blockSize);
@@ -25,13 +25,13 @@ class Playfield extends Entity {
 
         ctx.beginPath();
 
-        for (var i = 1; i < columns; i++) {
+        for (var i = 0; i < columns; i++) {
             var x = i * blockSize + 0.5;
             ctx.moveTo(x, 0.5);
             ctx.lineTo(x, h + 0.5);
         }
 
-        for (var i = 1; i < rows; i++) {
+        for (var i = 0; i < rows; i++) {
             var y = i * blockSize + 0.5;
             ctx.moveTo(0.5, y);
             ctx.lineTo(w + 0.5, y);
