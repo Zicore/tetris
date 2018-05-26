@@ -19,7 +19,7 @@ class Game {
         this.fpsToDraw = 0;
         this.lastCalledTime = performance.now();
         this.currentUpdateFpsTime = 0.0;
-        this.score = 0;
+        this.score = new Score();
         this.deltaTime = 0;
         this.keysDown = [];        
         this.bag = [];
@@ -67,7 +67,7 @@ class Game {
         this.context.fillStyle = "black";
         this.context.fillText(infoString, 416, 20);
 
-        var scoreString = "Score: " + this.score;
+        var scoreString = "Score: " + this.score.value;
         this.context.font = "20px Arial";
         this.context.fillStyle = "black";
         this.context.fillText(scoreString, 4, 20);
