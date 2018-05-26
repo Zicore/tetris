@@ -21,7 +21,7 @@ class Game {
         this.currentUpdateFpsTime = 0.0;
         this.score = new Score();
         this.deltaTime = 0;
-        this.keysDown = [];        
+        this.keysDown = [];
         this.bag = [];
 
         this.paused = false;

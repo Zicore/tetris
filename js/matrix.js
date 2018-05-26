@@ -131,12 +131,13 @@ class Matrix extends Entity {
     }
 
     clearHitlist() {
-        if (!this.isAnimating) {
+        if (!this.isAnimating) {            
             if (this.hitlist.length > 0) {
                 for (var i = 0; i < this.hitlist.length; i++) {
                     this.hitlist[i].kill();
                 }
                 this.translationRequired = true;
+                this.game.score.addScoreByRows(this.rowsToClear);
             }
         }
     }
