@@ -44,7 +44,9 @@ class Matrix extends Entity {
     add(tetrimino) {
         for (var i = 0; i < tetrimino.entities.length; i++) {
             var block = tetrimino.entities[i];
-            this.cells[block.rowAbs][block.columnAbs].applyBlock(tetrimino, block);
+            if(block.rowAbs >= 0 && block.rowAbs < this.game.maxRows && block.columnAbs >= 0 && block.columnAbs < this.game.maxColumns){
+                this.cells[block.rowAbs][block.columnAbs].applyBlock(tetrimino, block);
+            }
         }
     }
 
