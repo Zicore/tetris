@@ -41,13 +41,14 @@ class Player extends Entity {
             if (this.isSoftDropping) {
                 secondsPerLine = secondsPerLine / 20.0;
             }
-            //this.tetrimino.translate(0,0);
+            
             if (this.tetrimino != null) {
                 this.timeToUpdate += game.deltaTime;
                 if (this.timeToUpdate >= secondsPerLine) {
                     this.timeToUpdate = 0.0;
                     if (!this.tetrimino.isTouchingGround() && !this.tetrimino.isTouchingCells()) {
                         this.locking = false;
+                        this.lockTime = 0.0;
                         this.tetrimino.translateRaw(1, 0);
                     } else {
                         this.locking = true;
@@ -56,9 +57,11 @@ class Player extends Entity {
 
                 if (this.locking) {
                     this.lockTime += game.deltaTime;
-                    if (this.lockTime >= this.lockTimeMax) {                        
-                        this.playfield.matrix.add(this.tetrimino);
-                        this.spawnNextTetrimono();
+                    if (this.lockTime >= this.lockTimeMax) {
+                        if(this.tetrimino.isTouchingGround() || this.tetrimino.isTouchingCells()){
+                            this.playfield.matrix.add(this.tetrimino);
+                            this.spawnNextTetrimono();
+                        }                        
                         this.locking = false;
                         this.lockTime = 0.0;
                     }
