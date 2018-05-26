@@ -56,17 +56,21 @@ class Game {
             this.playfields[i].render(this, tFrame);
         }
 
-        this.context.font = "16px Arial";
-
-        this.context.fillStyle = "black";
 
         var infoString = "FPS: " + this.fpsToDraw.toFixed(2);
 
         if(this.paused){
             infoString = infoString + " (Paused)";
         }
+        
+        this.context.font = "16px Arial";
+        this.context.fillStyle = "black";
+        this.context.fillText(infoString, 416, 20);
 
-        this.context.fillText(infoString, 2, 18);
+        var scoreString = "Score: " + this.score;
+        this.context.font = "20px Arial";
+        this.context.fillStyle = "black";
+        this.context.fillText(scoreString, 4, 20);
     }
 
     update(lastTick) {
