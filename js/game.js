@@ -138,15 +138,6 @@ class Game {
     scenario1(){
         var matrix = this.playfields[0].matrix;
 
-        matrix.cells[20][0].block.visible = true;
-        matrix.cells[20][1].block.visible = true;
-        matrix.cells[20][2].block.visible = true;
-        matrix.cells[20][3].block.visible = true;
-        matrix.cells[20][4].block.visible = true;
-        matrix.cells[20][5].block.visible = true;
-        matrix.cells[20][6].block.visible = true;
-        matrix.cells[20][7].block.visible = true;
-        matrix.cells[20][8].block.visible = true;
 
         matrix.cells[21][0].block.visible = true;
         matrix.cells[21][1].block.visible = true;
@@ -155,18 +146,18 @@ class Game {
         matrix.cells[21][4].block.visible = true;
         matrix.cells[21][5].block.visible = true;
         matrix.cells[21][6].block.visible = true;
-        matrix.cells[21][7].block.visible = true;
-        matrix.cells[21][8].block.visible = true;
+        //matrix.cells[21][7].block.visible = true;
+        //matrix.cells[21][8].block.visible = true;
 
         matrix.cells[22][0].block.visible = true;
         matrix.cells[22][1].block.visible = true;
         matrix.cells[22][2].block.visible = true;
         matrix.cells[22][3].block.visible = true;
-        matrix.cells[22][4].block.visible = false;
+        matrix.cells[22][4].block.visible = true;
         matrix.cells[22][5].block.visible = true;
         matrix.cells[22][6].block.visible = true;
         matrix.cells[22][7].block.visible = true;
-        matrix.cells[22][8].block.visible = true;
+        //matrix.cells[22][8].block.visible = true;
 
         matrix.cells[23][0].block.visible = true;
         matrix.cells[23][1].block.visible = true;
@@ -176,7 +167,18 @@ class Game {
         matrix.cells[23][5].block.visible = true;
         matrix.cells[23][6].block.visible = true;
         matrix.cells[23][7].block.visible = true;
-        matrix.cells[23][8].block.visible = true;
+        //matrix.cells[23][8].block.visible = true;
+
+
+        matrix.cells[24][0].block.visible = true;
+        matrix.cells[24][1].block.visible = true;
+        matrix.cells[24][2].block.visible = true;
+        matrix.cells[24][3].block.visible = true;
+        matrix.cells[24][4].block.visible = true;
+        matrix.cells[24][5].block.visible = true;
+        matrix.cells[24][6].block.visible = true;
+        matrix.cells[24][7].block.visible = true;
+        //matrix.cells[24][8].block.visible = true;
 
         this.playfields[0].player.tetrimino.column = 8;
         this.playfields[0].player.tetrimino.facing = Tetrimino.FACING_WEST;

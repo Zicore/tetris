@@ -22,6 +22,7 @@ class Playfield extends Entity {
         var columns = this.game.maxColumns + 1;
         var rows = this.game.maxRows + 1;
 
+
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#A0A0A0";
 
@@ -43,8 +44,24 @@ class Playfield extends Entity {
 
         for(var i = 0; i < this.player.nextQueue.length; i++){
             var tetrimono = this.player.nextQueue[i];
-            tetrimono.renderOffset(340, 60 + ((blockSize - 3) * 3) * i,game, tFrame);
+            tetrimono.renderOffset(275, 60 + ((blockSize - 1) * 3) * i,game, tFrame);
         }
+
+        for(var i = 0; i < this.player.tetriminos.length; i++){
+            var tetrimono = this.player.tetriminos[i];
+            tetrimono.renderOffset(390, 60 + ((blockSize - 1) * 3) * i,game, tFrame);
+
+            var rate = this.player.spawnTable[i] * 100.0;
+            var chanceString = "Chance: " + rate.toFixed(2) + "%";
+            ctx.font = "14px Arial";
+            ctx.fillStyle = "black";
+            ctx.fillText(chanceString, 380, 56 + ((blockSize - 1) * 3) * i);
+        }
+
+        // var text = "Sum: " + this.player.sumChance().toFixed(2);
+        // ctx.font = "14px Arial";
+        // ctx.fillStyle = "black";
+        // ctx.fillText(text, 380, 600);
 
         this.matrix.render(game, tFrame);
         this.player.render(game, tFrame);
